@@ -1,0 +1,17 @@
+{
+  "name": "pgats-trabalho-conclusao-modulo3",
+  "version": "1.0.0",
+  "description": "Parte prátida do trabalho de conclusão do módulo 3 da pós-graduação em Automação de Testes com classe de consulta e realização de pagamentos, incluindo testes automatizados.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "dependencies": {
+    "mocha": "^11.7.6",
+    "mochawesome": "^7.1.4"
+  }
+}

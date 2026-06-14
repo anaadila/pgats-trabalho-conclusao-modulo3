@@ -74,21 +74,22 @@ npm test
 npm run test:report
 ```
 
-#### Abrir relatório HTML
+### Gerar resultados de teste em XML
 
-**Windows:**
 ```bash
-start .\mochawesome-report\mochawesome.html
+npm run test:junit
 ```
 
-**Mac:**
+### Gerar resultados de teste em JSON
+
 ```bash
-open ./mochawesome-report/mochawesome.html
+npm run test:json
 ```
 
-**Linux:**
+### Executar todos os relatórios de teste
+
 ```bash
-xdg-open ./mochawesome-report/mochawesome.html
+npm run test:all
 ```
 
 ## 📂 Estrutura do Projeto

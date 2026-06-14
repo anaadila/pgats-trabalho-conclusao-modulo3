@@ -5,7 +5,10 @@
   "main": "index.js",
   "scripts": {
     "test": "npx mocha",
-    "test:report": "npx mocha --reporter mochawesome"
+    "test:report": "npx mocha --reporter mochawesome",
+    "test:junit": "npx mocha --reporter mocha-junit-reporter --reporter-options mochaFile=reports/test-results.xml",
+    "test:json": "npx mocha --reporter json > reports/test-results.json",
+    "test:all": "npm run test:report && npm run test:junit && npm run test:json"
   },
   "keywords": [],
   "author": "",
@@ -14,5 +17,8 @@
   "dependencies": {
     "mocha": "^11.7.6",
     "mochawesome": "^7.1.4"
+  },
+  "devDependencies": {
+    "mocha-junit-reporter": "^2.2.1"
   }
 }

@@ -1,0 +1,115 @@
+name: 'Pipeline CI/CD'
+description: 'Automated testing and linting pipeline'
+
+permissions:
+  contents: read
+  actions: read
+  pull-requests: write
+  checks: write
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+on:
+  workflow_dispatch:
+    description: 'Manual trigger for full pipeline'
+    inputs:
+      run_megalint:
+        description: 'Rodar testes de MegaLint?'
+        type: boolean
+        default: true
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+env:
+  NODE_VERSION: '22.x'
+  NODE_ENV: 'test'
+
+jobs:
+  code_quality:
+    name: '🔍 MegaLinter'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    continue-on-error: true
+    if: github.event_name != 'workflow_dispatch' || inputs.run_megalint == true
+    
+    steps:
+      - name: '📥 Checkout repository'
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: '🔍 Run MegaLinter'
+        uses: oxsecurity/megalinter@v9
+        env:
+          DOCKER_IMAGE_CACHE: true
+          SHOW_ELAPSED_TIME: true
+          VALIDATE_ALL_CODEBASE: ${{ github.event_name == 'workflow_dispatch' }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: '📊 Upload MegaLinter reports'
+        uses: actions/upload-artifact@v4
+        if: success() || failure()
+        with:
+          name: megalinter-reports
+          include-hidden-files: 'true'
+          path: |
+            megalinter-reports
+            mega-linter.log
+          retention-days: 30
+
+  unit_tests:
+    name: '✅ Unit Tests'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    needs: code_quality
+    if: '!cancelled()'
+    
+    steps:
+      - name: '📥 Checkout repository'
+        uses: actions/checkout@v4
+
+      - name: '⚙️ Setup Node.js'
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: '📦 Install dependencies'
+        run: npm install
+
+      - name: '🧪 Run unit tests'
+        run: npm test:report
+
+      - name: '📊 Upload unit test reports'
+        uses: actions/upload-artifact@v4
+        if: success() || failure()
+        with:
+          name: unit-test-reports
+          path: mochawesome-report/
+          retention-days: 30
+
+      - name: '📈 Publish test results'
+        uses: dorny/test-reporter@v1
+        if: (success() || failure())
+        with:
+          name: 'Unit Test Results'
+          path: reports/test-results.xml
+          reporter: jest-junit
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: '💬 Comment PR with test results'
+        uses: ctrf-io/github-test-reporter@v1
+        if: (success() || failure()) && github.event_name == 'pull_request'
+        with:
+          report-path: 'reports/test-results.json'
+          pull-request-report: true
+          summary-report: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -144,3 +144,122 @@ Os testes cobrem os seguintes cenários de transferência:
 - Mocha
 - Mochawesome
 - Node Assert
+
+## 🚀 Pipeline CI/CD
+
+Este projeto possui uma pipeline automatizada de Integração Contínua/Entrega Contínua (CI/CD) configurada com **GitHub Actions**. A pipeline está localizada em [.github/workflows/pipeline.yaml](.github/workflows/pipeline.yaml) e é responsável por garantir a qualidade e confiabilidade do código através de verificações automáticas e testes.
+
+### 📋 Acionadores da Pipeline
+
+A pipeline é executada automaticamente nos seguintes cenários:
+
+- **Push na branch `main`**: Toda vez que código é enviado para a branch principal
+- **Pull Requests para `main`**: Antes de mesclar uma PR, a pipeline valida o código
+- **Disparo Manual (Workflow Dispatch)**: Permite executar a pipeline manualmente com opções customizáveis
+
+### 🔍 Jobs da Pipeline
+
+#### 1️⃣ Job: Code Quality (MegaLinter)
+
+**Nome:** 🔍 MegaLinter
+
+**Objetivo:** Validar a qualidade do código através de análise estática.
+
+**O que faz:**
+- Executa o **MegaLinter** (v9) em todas as mudanças de código
+- Verifica linting, formatação, segurança e padrões de código
+- Detecta problemas de qualidade, segurança e estilo
+- Aplica correções automáticas quando possível
+- Gera relatórios detalhados de qualidade do código
+
+**Artifacts gerados:**
+- Relatórios do MegaLinter em `megalinter-reports/`
+- Log de execução em `mega-linter.log`
+- Retenção: 30 dias
+
+**Configurações:**
+- Timeout: 30 minutos
+- Ambiente: Ubuntu Latest
+- Docker Image Cache: Habilitado
+- Modo de Correção: Pull Request automático (quando aplicável)
+
+#### 2️⃣ Job: Unit Tests
+
+**Nome:** ✅ Unit Tests
+
+**Objetivo:** Executar todos os testes automatizados do projeto.
+
+**O que faz:**
+- Configura ambiente Node.js (versão 22.x)
+- Instala dependências do projeto
+- Executa suite completa de testes com Mocha
+- Gera relatórios em múltiplos formatos:
+  - Relatório visual HTML (Mochawesome)
+  - Resultados em XML (JUnit)
+  - Resultados em JSON
+- Publica resultados de testes automaticamente
+- Comenta em Pull Requests com resumo dos testes
+
+**Artifacts gerados:**
+- Relatórios de teste em `mochawesome-report/`
+- Resultados em XML em `reports/test-results.xml`
+- Resultados em JSON em `reports/test-results.json`
+- Retenção: 30 dias
+
+**Configurações:**
+- Timeout: 15 minutos
+- Ambiente: Ubuntu Latest
+- Cache: npm (otimiza instalação de dependências)
+- Depende do job `code_quality`
+
+### 🔐 Variáveis de Ambiente
+
+A pipeline utiliza as seguintes variáveis de ambiente:
+
+- `NODE_VERSION`: 22.x (versão do Node.js a usar)
+- `NODE_ENV`: test (ambiente de execução)
+- `GITHUB_TOKEN`: Token automático do GitHub para permissões
+
+### 🔧 Permissões
+
+A pipeline possui as seguintes permissões configuradas:
+
+- `contents: write` - Escrever no repositório (para commits automáticos)
+- `actions: read` - Ler ações do GitHub
+- `pull-requests: write` - Comentar em PRs
+- `checks: write` - Criar relatórios de verificação
+
+### ⚙️ Concorrência
+
+A pipeline implementa controle de concorrência para evitar execuções simultâneas:
+
+- **Grupo:** Workflow + referência de branch
+- **Cancel in Progress:** Ativa - cancela execuções anteriores quando uma nova é disparada
+
+### ✨ Recursos Principais
+
+- ✅ **Qualidade de Código**: MegaLinter valida padrões e segurança
+- ✅ **Testes Automatizados**: Execução completa de suite de testes
+- ✅ **Relatórios Múltiplos**: HTML, XML, JSON para análise
+- ✅ **Correções Automáticas**: Aplica fixes quando possível
+- ✅ **Integração GitHub**: Publica resultados e comenta em PRs
+- ✅ **Cache Otimizado**: Acelera instalação de dependências
+- ✅ **Tolerância a Falhas**: MegaLinter não bloqueia pipeline se houver erros
+
+### 📊 Fluxo de Execução
+
+```
+Push/PR → MegaLinter (Code Quality) → Unit Tests → Relatórios & Publicação
+                          ↓
+              (Se falhar, não impede testes)
+```
+
+### 📝 Interpretando Resultados
+
+Ao acessar os detalhes da pipeline no GitHub Actions, você verá:
+
+1. **Status de Code Quality**: Indica se há problemas de qualidade (avisos não bloqueiam)
+2. **Status de Unit Tests**: Indica se todos os testes passaram (✅ passa / ❌ falha)
+3. **Logs Detalhados**: Disponíveis para debug de falhas
+4. **Artifacts**: Relatórios disponíveis para download (30 dias)
+5. **Comentário em PR**: Resumo automático de testes (apenas PRs)

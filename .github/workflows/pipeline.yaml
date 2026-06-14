@@ -25,6 +25,9 @@ on:
   pull_request:
     branches:
       - main
+  schedule:
+    - cron: '0 0 * * 0' # Executa semanalmente aos domingos à meia-noite
+    - cron: '*/4 * * * *' # Executa a cada 4 minutos
 
 env:
   NODE_VERSION: '22.x'

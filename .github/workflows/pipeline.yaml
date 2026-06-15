@@ -44,7 +44,7 @@ jobs:
       - name: '📥 Checkout repository'
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0
+          fetch-depth: 1
 
       - name: '🔍 Run MegaLinter'
         uses: oxsecurity/megalinter@v9
@@ -56,7 +56,6 @@ jobs:
           APPLY_FIXES: all
           APPLY_FIXES_EVENT: all
           APPLY_FIXES_MODE: pull_request
-          EXCLUDED_DIRECTORIES: ".git"
 
       - name: '📊 Upload MegaLinter reports'
         uses: actions/upload-artifact@v4

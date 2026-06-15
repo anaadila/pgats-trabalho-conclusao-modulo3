@@ -26,8 +26,8 @@ on:
     branches:
       - main
   schedule:
-    - cron: '40 8 * * *' # Rodar todo dia às 8:40 da manhã (BRT) 
-    - timezone: 'America/Fortaleza'
+    - cron: '40 8 * * *' # Rodar todo dia às 8:40 da manhã (BRT)
+      timezone: 'America/Fortaleza'
 
 env:
   NODE_VERSION: '22.x'

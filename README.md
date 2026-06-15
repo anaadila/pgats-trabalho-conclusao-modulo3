@@ -1,4 +1,9 @@
 # pgats-trabalho-conclusao-modulo3
+[![Pipeline CI/CD](https://github.com/anaadila/pgats-trabalho-conclusao-modulo3/actions/workflows/pipeline.yaml/badge.svg)](https://github.com/anaadila/pgats-trabalho-conclusao-modulo3/actions)
+![Node Version](https://img.shields.io/badge/Node.js-v22.x-green?style=flat-square&logo=node.js)
+![Test Framework](https://img.shields.io/badge/Tests-Mocha-8D6748?style=flat-square&logo=mocha)
+![Code Quality](https://img.shields.io/badge/Code%20Quality-MegaLinter-3178C6?style=flat-square)
+![Maintained](https://img.shields.io/badge/Maintained%3F-yes-green.svg?style=flat-square)
 
 Parte prática do trabalho de conclusão do módulo 3 da pós-graduação em Automação de Testes com classe de consulta e realização de pagamentos, incluindo testes automatizados.
 
@@ -46,7 +51,7 @@ Os pagamentos são armazenados como objetos JavaScript em uma lista.
 ## 🚀 Instalação
 
 ### Pré-requisitos
-- Node.js 14+ instalado
+- Node.js 22.x instalado
 
 ### Passos
 
@@ -156,6 +161,7 @@ A pipeline é executada automaticamente nos seguintes cenários:
 - **Push na branch `main`**: Toda vez que código é enviado para a branch principal
 - **Pull Requests para `main`**: Antes de mesclar uma PR, a pipeline valida o código
 - **Disparo Manual (Workflow Dispatch)**: Permite executar a pipeline manualmente com opções customizáveis
+- **Agendamento (Cron)**: Executa a pipeline semanalmente aos domingos à meia-noite
 
 ### 🔍 Jobs da Pipeline
 

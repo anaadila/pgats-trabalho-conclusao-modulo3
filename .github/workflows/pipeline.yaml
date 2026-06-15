@@ -26,7 +26,8 @@ on:
     branches:
       - main
   schedule:
-    - cron: '0 3 * * 0' # Executa semanalmente aos domingos à meia-noite (Brasil) / 3h00 (UTC)
+    - cron: '40 8 * * *' # Rodar todo dia às 8:40 da manhã (BRT) 
+    - timezone: 'America/Fortaleza'
 
 env:
   NODE_VERSION: '22.x'
@@ -55,7 +56,6 @@ jobs:
           APPLY_FIXES: all
           APPLY_FIXES_EVENT: all
           APPLY_FIXES_MODE: pull_request
-          REPOSITORY_KINGFISHER_ARGUMENTS: "--git-history none"
 
       - name: '📊 Upload MegaLinter reports'
         uses: actions/upload-artifact@v4

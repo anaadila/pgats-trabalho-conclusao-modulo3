@@ -26,7 +26,7 @@ on:
     branches:
       - main
   schedule:
-    - cron: '0 0 * * 0' # Executa semanalmente aos domingos à meia-noite
+    - cron: '0 3 * * 0' # Executa semanalmente aos domingos à meia-noite (Brasil) / 3h00 (UTC)
 
 env:
   NODE_VERSION: '22.x'

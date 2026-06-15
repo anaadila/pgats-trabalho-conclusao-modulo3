@@ -27,7 +27,6 @@ on:
       - main
   schedule:
     - cron: '0 0 * * 0' # Executa semanalmente aos domingos à meia-noite
-    - cron: '*/4 * * * *' # Executa a cada 4 minutos
 
 env:
   NODE_VERSION: '22.x'
@@ -38,7 +37,6 @@ jobs:
     name: '🔍 MegaLinter'
     runs-on: ubuntu-latest
     timeout-minutes: 30
-    continue-on-error: true
     if: github.event_name != 'workflow_dispatch' || inputs.run_megalint == true
     
     steps:
@@ -56,7 +54,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           APPLY_FIXES: all
           APPLY_FIXES_EVENT: all
-          APPLY_FIXED_MODE: pull_request
+          APPLY_FIXES_MODE: pull_request
           FILTER_REGEX_EXCLUDE: '(\.git/.*)'
 
       - name: '📊 Upload MegaLinter reports'

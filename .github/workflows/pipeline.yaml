@@ -26,7 +26,8 @@ on:
     branches:
       - main
   schedule:
-    - cron: '40 8 * * *' # Rodar todo dia às 8:40 da manhã (BRT)
+    - cron: '33 9 * * *' # Rodar todo dia às 9:33 da manhã (BRT)
+    - cron: '*/20 * * * *' # Rodar a cada 20 minutos
       timezone: 'America/Fortaleza'
 
 env:
@@ -44,10 +45,7 @@ jobs:
       - name: '📥 Checkout repository'
         uses: actions/checkout@v4
         with:
-          fetch-depth: 1
-          
-      - name: 'Ignore Git Config in Kingfisher'
-        run: echo "# gitleaks:allow" >> .git/config
+          fetch-depth: 0
 
       - name: '🔍 Run MegaLinter'
         uses: oxsecurity/megalinter@v9
@@ -59,6 +57,7 @@ jobs:
           APPLY_FIXES: all
           APPLY_FIXES_EVENT: all
           APPLY_FIXES_MODE: pull_request
+          DISABLE_LINTERS: REPOSITORY_KINGFISHER
 
       - name: '📊 Upload MegaLinter reports'
         uses: actions/upload-artifact@v4

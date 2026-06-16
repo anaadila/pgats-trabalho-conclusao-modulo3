@@ -2,10 +2,7 @@ name: 'Pipeline CI/CD'
 # description: 'Automated testing and linting pipeline'
 
 permissions:
-  contents: write
-  actions: read
-  pull-requests: write
-  checks: write
+  contents: read
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -38,6 +35,11 @@ jobs:
     name: '🔍 MegaLinter'
     runs-on: ubuntu-latest
     timeout-minutes: 30
+
+    permissions:
+      contents: write
+      pull-requests: write
+
     if: github.event_name != 'workflow_dispatch' || inputs.run_megalint == true
     
     steps:
@@ -56,8 +58,7 @@ jobs:
           APPLY_FIXES: all
           APPLY_FIXES_EVENT: all
           APPLY_FIXES_MODE: pull_request
-          DISABLE_LINTERS: REPOSITORY_KINGFISHER, SPELL_CSPELL
-          ACTION_ZIZMOR_UNSECURED_ENV_VARIABLES: GITHUB_TOKEN
+          DISABLE_LINTERS: REPOSITORY_KINGFISHER, SPELL_CSPELL, REPOSITORY_CHECKOV, ACTION_ZIZMOR
 
       - name: '📊 Upload MegaLinter reports'
         uses: actions/upload-artifact@v4
@@ -75,11 +76,19 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     needs: code_quality
+
+    permissions:
+      contents: read
+      pull-requests: write
+      checks: write
+
     if: '!cancelled()'
     
     steps:
       - name: '📥 Checkout repository'
         uses: actions/checkout@v4
+        with:
+          persist-credentials: false
 
       - name: '⚙️ Setup Node.js'
         uses: actions/setup-node@v4

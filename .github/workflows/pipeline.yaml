@@ -26,8 +26,7 @@ on:
     branches:
       - main
   schedule:
-    - cron: '33 9 * * *' # Rodar todo dia às 9:33 da manhã (BRT)
-    - cron: '*/20 * * * *' # Rodar a cada 20 minutos
+    - cron: '0 22 * * 1' # Rodar toda segunda às 10h da noite (BRT)
       timezone: 'America/Fortaleza'
 
 env:

@@ -1,5 +1,5 @@
 name: 'Pipeline CI/CD'
-description: 'Automated testing and linting pipeline'
+# description: 'Automated testing and linting pipeline'
 
 permissions:
   contents: write
@@ -13,7 +13,7 @@ concurrency:
 
 on:
   workflow_dispatch:
-    description: 'Manual trigger for full pipeline'
+  # description: 'Manual trigger for full pipeline'
     inputs:
       run_megalint:
         description: 'Rodar testes de MegaLint?'

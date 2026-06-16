@@ -10,7 +10,8 @@ Parte prática do trabalho de conclusão do módulo 3 da pós-graduação em Aut
 ## 📋 Descrição do Desafio
 
 ### Objetivo:
-Crie uma classe que possua dois métodos: um para realizar pagamento e outro para consultar o último pagamento. Pagamentos serão armazenados como objetos Javascript dentro de uma lista de pagamentos. Cada pagamento terá as propriedades: Código de Barras, Empresa e Valor. Quando um pagamento for realizado e o valor for maior que 100.00, o pagamento também terá a propriedade categoria como 'cara', caso contrário, a propriedade categoria ficará como 'padrão'. O método de consultar trará apenas o último pagamento.
+Crie uma classe que possua dois métodos: um para realizar pagamento e outro para consultar o último pagamento.
+Pagamentos serão armazenados como objetos Javascript dentro de uma lista de pagamentos. Cada pagamento terá as propriedades: Código de Barras, Empresa e Valor. Quando um pagamento for realizado e o valor for maior que 100.00, o pagamento também terá a propriedade categoria como 'cara', caso contrário, a propriedade categoria ficará como 'padrão'. O método de consultar trará apenas o último pagamento.
 
 ### Exemplo:
 ```javascript
@@ -99,7 +100,8 @@ npm run test:all
 
 ## 📂 Estrutura do Projeto
 
-```
+
+```text
 pgats-trabalho-conclusao-modulo3/
 ├── src/
 │   ├── servicoDePagamento.js
@@ -254,7 +256,7 @@ A pipeline implementa controle de concorrência para evitar execuções simultâ
 
 ### 📊 Fluxo de Execução
 
-```
+```text
 Push/PR → MegaLinter (Code Quality) → Unit Tests → Relatórios & Publicação
                           ↓
               (Se falhar, não impede testes)

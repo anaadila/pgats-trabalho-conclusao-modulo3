@@ -161,7 +161,7 @@ A pipeline é executada automaticamente nos seguintes cenários:
 - **Push na branch `main`**: Toda vez que código é enviado para a branch principal
 - **Pull Requests para `main`**: Antes de mesclar uma PR, a pipeline valida o código
 - **Disparo Manual (Workflow Dispatch)**: Permite executar a pipeline manualmente com opções customizáveis
-- **Agendamento (Cron)**: Executa a pipeline semanalmente aos domingos à meia-noite
+- **Agendamento (Cron)**: Executa a pipeline semanalmente (toda segunda-feira às 22h, horário de Fortaleza)
 
 ### 🔍 Jobs da Pipeline
 
